@@ -84,32 +84,33 @@ The state estimation system is built as a modular ROS-based pipeline using the *
 
 ```mermaid
 flowchart TD
+  %% Simplified labels for GitHub Mermaid compatibility
   subgraph Sensors
-    VESC[VESC 6 MkVI (vesc_driver + vesc_to_odom)]
-    IMU[IMU - SparkFun Artemis (custom/rosserial)]
-    LIDAR[Hokuyo UST-10LX (urg_node)]
-    CAM[RealSense D435 (realsense2_camera)]
+    VESC[VESC]
+    IMU[IMU]
+    LIDAR[LiDAR]
+    CAM[Camera]
   end
 
   subgraph Preprocessing
-    ODOM[/odom (nav_msgs/Odometry)/]
-    IMUDATA[/imu/data_raw (sensor_msgs/Imu)/]
-    SCAN[/scan (sensor_msgs/LaserScan)/]
-    VO[/vo_odom (nav_msgs/Odometry)/]
+    ODOM[/odom/]
+    IMUDATA[/imu_data_raw/]
+    SCAN[/scan/]
+    VO[/vo_odom/]
   end
 
-  subgraph Optional_SLAM
-    SLAMNODE[SLAM Node (Hector/Cartographer)]
-    SLAMPOSE[/slam_out_pose (geometry_msgs/PoseStamped)/]
+  subgraph SLAM
+    SLAMNODE[SLAM]
+    SLAMPOSE[/slam_out_pose/]
   end
 
   subgraph Fusion
-    EKF[ekf_localization_node (robot_localization)]
+    EKF[EKF]
   end
 
   subgraph Outputs
-    FILTERED[/odometry/filtered (nav_msgs/Odometry)/]
-    TF[TF: odom->base_link]
+    FILTERED[/odometry_filtered/]
+    TF[tf odom->base_link]
   end
 
   VESC --> ODOM
