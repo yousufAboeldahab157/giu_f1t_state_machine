@@ -84,46 +84,46 @@ The state estimation system is built as a modular ROS-based pipeline using the *
 
 ```mermaid
 flowchart TD
-    subgraph Sensors
-        VESC[VESC 6 MkVI\n(vesc_driver + vesc_to_odom)]
-        IMU[IMU - SparkFun Artemis\n(custom/rosserial)]
-        LIDAR[Hokuyo UST-10LX\n(urg_node)]
-        CAM[RealSense D435\n(realsense2_camera)]
-    end
+  subgraph Sensors
+    VESC[VESC 6 MkVI (vesc_driver + vesc_to_odom)]
+    IMU[IMU - SparkFun Artemis (custom/rosserial)]
+    LIDAR[Hokuyo UST-10LX (urg_node)]
+    CAM[RealSense D435 (realsense2_camera)]
+  end
 
-    subgraph Preprocessing
-        ODOM[/odom\n(nav_msgs/Odometry)/]
-        IMUDATA[/imu/data_raw\n(sensor_msgs/Imu)/]
-        SCAN[/scan\n(sensor_msgs/LaserScan)/]
-        VO[/vo_odom\n(nav_msgs/Odometry)/]
-    end
+  subgraph Preprocessing
+    ODOM[/odom (nav_msgs/Odometry)/]
+    IMUDATA[/imu/data_raw (sensor_msgs/Imu)/]
+    SCAN[/scan (sensor_msgs/LaserScan)/]
+    VO[/vo_odom (nav_msgs/Odometry)/]
+  end
 
-    subgraph Optional_SLAM
-        SLAMNODE[SLAM Node\n(Hector/Cartographer)]
-        SLAMPOSE[/slam_out_pose\n(geometry_msgs/PoseStamped)/]
-    end
+  subgraph Optional_SLAM
+    SLAMNODE[SLAM Node (Hector/Cartographer)]
+    SLAMPOSE[/slam_out_pose (geometry_msgs/PoseStamped)/]
+  end
 
-    subgraph Fusion
-        EKF[ekf_localization_node\n(robot_localization)]
-    end
+  subgraph Fusion
+    EKF[ekf_localization_node (robot_localization)]
+  end
 
-    subgraph Outputs
-        FILTERED[/odometry/filtered\n(nav_msgs/Odometry)/]
-        TF[TF: odom → base_link]
-    end
+  subgraph Outputs
+    FILTERED[/odometry/filtered (nav_msgs/Odometry)/]
+    TF[TF: odom->base_link]
+  end
 
-    VESC --> ODOM
-    IMU --> IMUDATA
-    LIDAR --> SCAN --> SLAMNODE --> SLAMPOSE
-    CAM --> VO
+  VESC --> ODOM
+  IMU --> IMUDATA
+  LIDAR --> SCAN --> SLAMNODE --> SLAMPOSE
+  CAM --> VO
 
-    ODOM --> EKF
-    IMUDATA --> EKF
-    SLAMPOSE --> EKF
-    VO --> EKF
+  ODOM --> EKF
+  IMUDATA --> EKF
+  SLAMPOSE --> EKF
+  VO --> EKF
 
-    EKF --> FILTERED
-    EKF --> TF
+  EKF --> FILTERED
+  EKF --> TF
 ```
 
 ---
