@@ -124,3 +124,16 @@ flowchart TD
 
     EKF --> FILTERED
     EKF --> TF
+```
+
+---
+
+## Future Extensions
+
+Planned evolution paths (deferred until the baseline EKF fusion is fully validated):
+
+- Unscented Kalman Filter (UKF): We can later trial `ukf_localization_node` to better handle stronger nonlinear vehicle dynamics (slip, aggressive steering). This will require additional tuning effort (process / measurement covariances, sigma point spread parameters) and possibly an expanded state.
+- GPS Integration: Add a GNSS (ideally RTK) receiver (`nmea_navsat_driver` + `navsat_transform_node`) to provide low‑rate absolute pose / velocity for drift correction when outdoors.
+- Visual Odometry (VO): Leverage the existing RealSense camera (or a dedicated tracking camera) with VO/SLAM (e.g., ORB-SLAM2, RTAB-Map, VINS-Fusion) to publish a `/vo_odom` topic for indoor / GPS-denied operation.
+
+Each added source increases configuration and covariance tuning complexity (time sync, frame alignment, outlier rejection). We will introduce them incrementally once quantitative EKF performance metrics (pose RMSE, innovation consistency, latency) are established.
