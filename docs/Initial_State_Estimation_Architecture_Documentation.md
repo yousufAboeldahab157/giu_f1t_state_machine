@@ -87,6 +87,7 @@ The state estimation system is built as a modular ROS-based pipeline using the *
 | Wheel Odometry (VESC) | `/odom` | `nav_msgs/Odometry` | x, y, yaw (optional), vx, vy (optional), yaw_rate |
 | IMU (Artemis) | `/imu/data_raw` | `sensor_msgs/Imu` | yaw_rate, linear_accel_x, linear_accel_y |
 | LiDAR Pose (optional) | `/slam_out_pose` | `geometry_msgs/PoseStamped` | x, y, yaw |
+| Camera Visual Odometry (planned) | `/vo_odom` | `nav_msgs/Odometry` | x, y, yaw |
 
 ### Outputs from EKF
 | ROS Topic | Message Type | Description |
